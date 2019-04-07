@@ -1,0 +1,123 @@
+{% extends 'pblog/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block css %}{% static 'pblog/css/home.css' %}{% endblock css %}
+
+
+{% block main %}
+    <div class="jumbotron jumbotron-fluid">
+    <div class="container text-center">
+        <h1 class="display-8"><p  data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">拉近你我的距离</p></h1>
+        <p class="lead">There are many individual styles used in breakdancing.</p>
+    </div>
+    </div>
+
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+
+    
+    <form action="{% url 'pblog:edit' %}" method="post">
+        {% csrf_token %}
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">新的文章</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">标题:</label>
+            <input name="title" type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">内容:</label>
+            <textarea name="content" class="form-control" id="message-text"></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+
+    <div class="list-group" style="padding-bottom:5em">
+        
+        {% for publish in allpublishs %}
+
+        
+        
+        {% if publish.types == 1 %}
+        <div class="card mb-3" >
+        <div class="row no-gutters">
+
+                
+            
+            <div class="col-md-10" style="margin-left:2em">
+            <div class="card-body">
+                <p class=" row">用户 <strong class="card-title">{{publish.article.writer.username}} </strong> 发布新的文章：</p> 
+                <p class="card-text"> <strong>文章内容： </strong> {{publish.article.content|slice:"50"}}...</p>
+                <p class="card-text" style="text-align:right"><small class="text-muted">{{publish.article.ctime|naturaltime}}</small></p>
+            </div>
+            </div>
+        </div>
+        </div>
+        {% elif publish.types == 2 %}
+
+        <div class="card mb-3" >
+        <div class="row no-gutters">
+          <!-- 图片 -->
+          <div class="col-md-2">
+          <img src="{{publish.photo.pic.url}}" class="card-img" alt="...">
+          </div>
+    
+
+          <div class="col-md-10">
+          <div class="card-body" style="margin-left:2em">
+              <p class=" row">用户 <strong class="card-title">{{publish.photo.album.user}} </strong> 发布新的图片：</p> 
+              <p class="card-text"> <strong>图片描述： </strong> {{publish.photo.description|slice:"50"}}...</p>
+              <p class="card-text" style="text-align:right"><small class="text-muted">{{publish.article.ctime|naturaltime}}</small></p>
+          </div>
+          </div>
+        </div>
+        </div>
+        {% else %} 
+
+        <div class="card mb-3" >
+        <div class="row no-gutters">
+          <div class="col-md-10" style="margin-left:2em">
+          <div class="card-body">
+              <p class=" row">用户 <strong class="card-title">{{publish.comment.user.username}} </strong> 发布新的评论：</p> 
+              <p class="card-text"> <strong>评论内容： </strong> {{publish.comment.content|slice:"50"}}...</p>
+              <p class="card-text" style="text-align:right"><small class="text-muted">{{publish.comment.ctime|naturaltime}}</small></p>
+          </div>
+          </div>
+        </div>
+        </div>
+        {% endif %}
+            
+        
+        {% endfor %}
+            
+    
+    </div>
+
+
+        
+{% endblock main %}
+    
+
+    

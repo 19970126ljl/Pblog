@@ -1,0 +1,3 @@
+{% include 'pblog/myarticle.html' %}
+  {% include 'pblog/myalbum.html' %}
+  {% include 'pblog/myinfo.html' %}

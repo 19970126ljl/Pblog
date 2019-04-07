@@ -1,0 +1,83 @@
+{% extends 'pblog/base.html' %}
+{% load static %}
+
+
+        
+{% block main %}   
+<div class="card border-light mb-3 text-center" >
+<div class="card-header">
+    <strong>{{article.title}}</strong>
+    <br>
+    <small>{{article.ctime}}</small>
+</div>
+<div class="card-body">
+    <!-- <h5 class="card-title">Light card title</h5> -->
+    <p class="card-text">{{article.content}}</p>
+</div>
+</div>
+
+
+<div class="card">
+<div class="card-header">
+    <div class="d-flex w-100 justify-content-between">
+      <small><a  href="{% url 'pblog:home' %}">返回</a></small>
+      <strong>评论</strong>
+      <small><p data-toggle="modal" data-target="#exampleModal">添加评论</p></small>
+    </div>
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">新的评论</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    
+                <form method="POST" action="{% url 'pblog:comment' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="articleid" value="{{article.id}}">
+                    <div class="form-group">
+                    <label for="message-text" class="col-form-label">评论:</label>
+                    <textarea name="content" class="form-control" id="message-text"></textarea>
+                    </div>
+                
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                  <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+    
+</div>
+
+
+
+
+
+<div class="card-body">
+        <ul class="list-group list-group-flush">
+            
+        {% for comment in comments %}
+        <li class="list-group-item">
+            <div class="d-flex w-100 justify-content-between">
+            <strong>{{comment.user.username}}: </strong>
+            <small>{{comment.ctime}}</small>
+            </div>
+            <div class="d-flex w-100 justify-content-between">
+            <small>{{comment.content}}</small>
+            <small><span class="badge badge-primary badge-pill text-right">14</span></small>
+            </div>
+        </li>
+        {% endfor %}
+        </ul>
+</div>
+</div>
+
+{% endblock main %} 

@@ -1,0 +1,52 @@
+{% extends 'pblog/base.html' %}
+{% load static %}
+
+
+{% block css %}{% static 'pblog/css/register.css' %}{% endblock css %}
+{% block main %}
+
+
+
+
+
+{% if regform.errors %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>错误</strong> 
+        {{regform.errors}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    
+{% endif %}
+    
+
+    
+<form action="" method="post">
+            {% csrf_token %}
+    <div class="card text-center">
+    <div class="card-header">
+        <strong>注册</strong>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+        <label for="id_username">用户名：</label>
+        <input type="text" class="form-control" name="username" id="id_username" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+        <label for="id_password1">密码：</label>
+        <input type="password" class="form-control" name="password1" id="id_password1" placeholder="Password">
+        </div>
+        <div class="form-group">
+        <label for="id_password2">确认密码：</label>
+        <input type="password" class="form-control" name="password2" id="id_password2" placeholder="Password">
+        </div>
+    </div>
+    <div class="card-footer text-muted">
+            <button type="submit" class="btn btn-primary">确定</button>
+    </div>
+    </div>
+</form>
+{% endblock main %}
+    
+    

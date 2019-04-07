@@ -1,0 +1,175 @@
+{% extends 'pblog/usercenter.html' %}
+{% load static %}
+
+
+{% block usercenter %}
+
+
+ 
+<div class="album py-5 bg-light">
+<div class="container">
+
+    <div class="row">
+        {% for album in allalbums %} 
+    <div class="col-md-4">
+        <div class="card mb-4 shadow-sm" >
+            <a href="{% url 'pblog:albumdetail' album.id %}" >
+            {% if album.cover.url %}
+              <img src="{{album.cover.url}}" alt="" width="100%" height="225">  
+              {% else %}
+              <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+            {% endif %}
+              </a>  
+       
+        <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#55595c"></rect>
+            <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+        </svg> -->
+        <div class="card-body">
+            <p class="card-text"> <small><strong>描述：</strong></small>  <small>{{album.description|slice:'50'}}...</small> </p>
+            <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#exampleModal2">编辑</button>
+                <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#exampleModal3">删除</button>
+            </div>
+            <small class="text-muted">{{album.ctime}}</small>
+            </div>
+        </div>
+        
+
+
+        </div>
+    </div>
+
+
+
+
+    <!-- Modal2 -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        
+    <form action="{% url 'pblog:albumdetail' album.id %}" method="post">
+        {% csrf_token %}
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">创建相册</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        
+            <div class="form-group">
+            <label for="title">标题：</label>
+            <input name="title" type="text" class="form-control" id="title" value="{{album.title}}">
+            </div>
+            <div class="form-group">
+            <label for="description">描述：</label>
+            <input name="description" type="text" class="form-control" id="description" value="{{album.description}}">
+            </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+
+    </form>
+    </div>
+</div>
+</div>
+
+
+    <!-- Modal3 -->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+        <form action="{% url 'pblog:deletealbum' album.id %}" method="post">
+            {% csrf_token %}
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">删除</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            
+                <h5>你确定删除 <strong>{{album.title}}</strong> 吗？ </h5>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            <button type="submit" class="btn btn-primary">保存</button>
+        </div>
+    
+        </form>
+        </div>
+    </div>
+    </div>
+
+
+
+    {% endfor %}
+    </div>
+    
+</div>
+</div>
+    
+
+
+<div class="card" style="margin-bottom:10em">
+        <!-- <a  class="btn btn-secondary active" href="">创建相册</a> -->
+        <!-- Button trigger modal -->
+<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+        创建相册
+</button>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">创建相册</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        
+            <div class="form-group">
+            <label for="title">标题：</label>
+            <input name="title" type="text" class="form-control" id="title" placeholder="相册">
+            </div>
+            <div class="form-group">
+            <label for="description">描述：</label>
+            <input name="description" type="text" class="form-control" id="description" placeholder="相册描述">
+            </div>
+            <div class="form-group">
+            <label for="cover">封面：</label>
+            <!-- <input name="cover" type="text" class="form-control" id="cover" placeholder="Another input"> -->
+            <input name="cover" accept="image/*" id="cover" type="file" >
+            </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+
+    </form>
+    </div>
+</div>
+</div>
+
+
+
+{% endblock usercenter %}
+    
+
+    

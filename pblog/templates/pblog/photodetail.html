@@ -1,0 +1,105 @@
+{% extends 'pblog/base.html' %}
+{% load static %}
+
+
+        
+{% block main %}   
+<div class="card">
+<div class="card-header">
+    <div class="d-flex w-100 justify-content-between">
+        <div>图片名： <strong>{{photo.title}}</strong></div>
+        <small><a type="button" href="{% url 'pblog:albumdetail' photo.album.id %}">返回</a></small>
+    </div>
+
+    
+    
+</div>
+
+<div class="card mb-3">
+  <div class="row no-gutters">
+    <div class="col-md-6">
+          <img src="{{photo.pic.url}}" alt="" width="100%">
+    </div>
+    <div class="col-md-6">
+      <div class="card-body">
+        <h5 class="card-title">{{photo.title}}</h5>
+        <p class="card-text">{{photo.description}}</p>
+        <p class="card-text"><small class="text-muted">{{photo.ctime}}</small></p>
+      </div>
+      <div style="text-align:right; padding-right: 4em">
+
+      <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+              编辑
+      </button>
+      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal2">删除</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        
+    <form action="" method="post">
+        {% csrf_token %}
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">编辑图片</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+      <label for="title">标题：</label>
+      <input name="title" type="text" class="form-control" id="title" value="{{photo.title}}">
+      </div>
+      <div class="form-group">
+      <label for="description">描述：</label>
+      <input name="description" type="text" class="form-control" id="description" value="{{photo.description}}">
+      </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+
+    </form>
+    </div>
+</div>
+</div>
+
+
+<!-- Modal 2-->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        
+    <form action="{% url 'pblog:deletephoto' photo.id %}" method="post">
+        {% csrf_token %}
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">删除</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+      <h5>你确定删除 <strong>{{photo.title}}</strong> 吗？</h5>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+
+    </form>
+    </div>
+</div>
+</div>
+
+{% endblock main %} 

@@ -1,0 +1,14 @@
+{% load static %}
+<nav>
+    
+    <a href="{% url 'shopping:home' %}">所有商品</a>
+
+    
+    {% for categ in allcategory %}
+    {# url 'shopping:categpage' categ.id #}
+        <a href="{% url 'shopping:categpage' categ.id %}">{{categ.name}}</a>
+    {% endfor %}
+        
+
+    <a href="{% url 'shopping:home' %}">购物车</a>
+</nav>

@@ -1,0 +1,32 @@
+{% extends 'pblog/usercenter.html' %}
+{% load static %}
+
+
+{% block usercenter %}
+    <div class="list-group">
+        
+        {% for article in allarticles %}
+        
+        <a href="{% url 'pblog:changearticle' article.id %}" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1"><strong>{{article.title}}</strong></h5>
+        <small>{{article.ctime}}</small>
+        </div>
+        <div class="d-flex w-100 justify-content-between">
+        <small><strong>作者：</strong>{{article.writer.username}}</small>
+        <small><span class="badge badge-primary badge-pill text-right">14</span></small>
+        </div>
+        <p class="mb-1">{{article.content|slice:'50'}}...</p>
+
+    </a>
+        {% endfor %}
+            
+    
+    </div>
+
+
+        
+{% endblock usercenter %}
+    
+
+    

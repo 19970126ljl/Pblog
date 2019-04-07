@@ -1,0 +1,16 @@
+body{
+    background: #f7f9ff;
+}
+#topnav{
+    font-size: 1.35em;
+    padding-left: 5em;
+    padding-right: 5em;
+    height: 2.5em;
+}
+nav input{
+    /* !import优先级 强制覆盖 */
+    width: 39%!important;
+}
+main{
+    font-size: 1.1em;
+}

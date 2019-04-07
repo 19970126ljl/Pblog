@@ -1,0 +1,96 @@
+{% extends 'pblog/base.html' %}
+{% load static %}
+
+
+        
+{% block main %}  
+
+{% if warning %}
+<div class="alert alert-danger alert-dismissible fade show text-center " role="alert">
+<strong>上传失败</strong> <br>{{warning}}
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+</button>
+</div>  
+{% endif %}
+    
+
+<div class="card">
+<div class="card-header">
+    <div class="d-flex w-100 justify-content-between">
+        <div>相册名： <strong>{{album.title}}</strong></div>
+        <small><a type="button" href="{% url 'pblog:myalbum' %}">返回</a></small>
+    </div>
+    
+</div>
+
+
+
+<div class="container">
+    <div class="row">
+
+    
+
+{% for photo in photos %}
+
+    
+
+<a class="card col-md-4" href="{% url 'pblog:photodetail' photo.id %}">
+<div class="card-body">
+    <img src="{{photo.pic.url}}" alt="" width="100%" height="225">
+    <div class="card-title">名称： {{photo.title}}</div>
+    <p><small class="card-text">描述： {{photo.description|slice:"50"}}...</small></p>
+</div>
+</a>
+{% endfor %}
+
+<button class="card col-md-4" data-toggle="modal" data-target="#exampleModal">
+<div class="card-body text-center">
+    <img src="https://img.icons8.com/ios/50/000000/plus-math-filled.png" alt="" width="100%" height="225">
+    <div class="card-title">添加</div>
+</div>
+</button>
+
+
+<!-- modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">新的图片</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+    <form action="{% url 'pblog:addphoto' album.id %}" method="POST" enctype="multipart/form-data" >
+        {% csrf_token %}
+ 
+        <label for="recipient-name" >图片:</label>
+        <input name="pic" type="file">
+
+        <div class="form-group">
+        <label for="recipient-name" class="col-form-label">标题:</label>
+        <input name="title" type="text" class="form-control" id="recipient-name">
+        </div>
+        <div class="form-group">
+        <label for="message-text" class="col-form-label">描述:</label>
+        <textarea name="description" class="form-control" id="message-text"></textarea>
+        </div>
+    
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Send message</button>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+
+<!-- modal -->
+</div>
+</div>
+</div>
+
+{% endblock main %} 

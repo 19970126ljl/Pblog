@@ -57,4 +57,11 @@ urlpatterns = [
     path('adminuser',views.madminuser,name='adminuser'),
     # 用户详细信息管理
     path('adminuserinfo/<user_id>',views.madminuserinfo,name='adminuserinfo'),
+    # 用户修改密码
+    path('changepassword/',views.mchangepassword,name='changepassword'),
+    # 点击用户进入用户界面
+    path('othersusercenter/<other_id>',views.mothersusercenter,name='othersusercenter'),
+    # 点击用户进入用户界面
+    path('othersusercenter/<other_id>',views.mothersusercenter,name='othersusercenter'),
+    
 ]

@@ -86,7 +86,7 @@
         <small><strong>作者：</strong>{{article.writer.username}}</small>
         <small><span class="badge badge-primary badge-pill text-right"></span></small>
         </div>
-        <p class="mb-1">{{article.content|slice:'50'}}...</p>
+        <p class="mb-1 articleshortcontent">{{article.content|slice:'50'}}...</p>
         
     </a>
         {% endif %}
@@ -97,7 +97,17 @@
     
     </div>
 
-
+<script>
+// $(document).ready(function(){
+//   var converter = new showdown.Converter();
+//   $(".articleshortcontent").each(function(){
+//     var text=$(this).text();
+//     var html= converter.makeHtml(text);
+//     console.log(html)
+//     $(this).html(html)
+//   })
+// });
+</script>
         
 {% endblock main %}
     

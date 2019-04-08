@@ -84,7 +84,8 @@ def myarticle(request):
 # 用户中心的用户的信息
 def myinfo(request):
     form=infoform(instance=request.user)
-    content={'infoform':form}
+    changepwdform = PasswordChangeForm(user=request.user)
+    content={'infoform':form,'changepwdform':changepwdform}
     return render(request,'pblog/myinfo.html',content)
 
 def myalbum(request):
@@ -177,6 +178,7 @@ def mdeletecomment(request,comment_id):
         comment.delete()
         return redirect('pblog:photodetail',comment.photo.id)
 
+# 修改个人信息
 def mchangeinfo(request):
     form=infoform(request.POST,instance=request.user)
     if form.is_valid():
@@ -276,6 +278,29 @@ def madminuserinfo(request,user_id):
         return redirect('pblog:adminuserinfo',user_id)   
     user=MUSER.objects.get(id=user_id)
     return render(request,'pblog/adminuserinfo.html',{'muser':user})
+
+def mchangepassword(request):
+    if request.method == 'POST':
+        changepwdform = PasswordChangeForm(data=request.POST,user=request.user)
+        if changepwdform.is_valid():
+            changepwdform.save()
+            return redirect('pblog:login')
+        else:
+            errors=changepwdform.errors
+            print(errors)
+            form=infoform(instance=request.user)
+            changepwdform = PasswordChangeForm(user=request.user)
+            content={'infoform':form,'changepwdform':changepwdform,'errors':errors}
+            return render(request,'pblog/myinfo.html',content)
+    else:
+        form=infoform(instance=request.user)
+        changepwdform = PasswordChangeForm(user=request.user)
+        content={'infoform':form,'changepwdform':changepwdform}
+        return redirect('pblog:myinfo')
+def mothersusercenter(request,other_id):
+    otheruser=User.objects.get(id=other_id)
+    return render(request,'pblog/othersusercenter.html',{'otheruser':otheruser})
+
 
 
 

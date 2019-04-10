@@ -41,6 +41,39 @@
         <label for="id_password2">确认密码：</label>
         <input type="password" class="form-control" name="password2" id="id_password2" placeholder="Password">
         </div>
+
+
+        <div class="justify-content-between">
+        <h5>性别：</h5>
+        <div class="form-check">
+            {% csrf_token %}
+            {% if muser.muser.gender %}
+            <input class="form-check-input" type="radio" name="gender" id="gender1" value="male" checked>
+            {% else %}
+            <input class="form-check-input" type="radio" name="gender" id="gender1" value="male" >
+            {% endif %}
+                
+        <label class="form-check-label" for="gender1">
+            男
+        </label>
+        </div>
+        <div class="form-check">
+            
+            {% if muser.muser.gender %}
+            <input class="form-check-input" type="radio" name="gender" id="gender2" value="female">
+            {% else %}
+            <input class="form-check-input" type="radio" name="gender" id="gender2" value="female"checked>
+            {% endif %}
+                
+        
+        <label class="form-check-label" for="gender2">
+            女
+        </label>
+        </div>
+        </div>
+
+
+
     </div>
     <div class="card-footer text-muted">
             <button type="submit" class="btn btn-primary">确定</button>

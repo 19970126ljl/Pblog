@@ -83,8 +83,15 @@
             </ul>
             <div class="card-body ">
             <div class="justify-content-between text-center" style="width: 100%;">
-                    <button type="button" class="btn btn-light"><a href="#" >发起聊天</a></button>
-                    <a type="button" class="btn btn-light"><a href="{% url 'pblog:othersusercenter' article.writer.id %}" >查看主页</a></a>
+                  <button id="chat" type="button" class="btn btn-light"><a href="#" >发起聊天</a></button>
+                  <!-- <a type="button" class="btn btn-light" href="{% url 'pblog:othersusercenter' article.writer.id %}">查看主页</a> -->
+                  
+                  {% if article.writer.id == user.id %}
+                  <button id="usercenter" type="button" class="btn btn-light"><a href="#" >查看主页</a></button>
+                  {% else %}
+                  <button id="otheruser" type="button" class="btn btn-light"><a href="#" >查看主页</a></button>
+                  {% endif %}
+                    
             </div>
             </div>
             </div>
@@ -173,6 +180,25 @@ $(document).ready(function(){
       html      = converter.makeHtml(text);
       console.log(html);
   $("#articlecontent").html(html);
+  $('#otheruser').on('click',function(){
+    window.open("{% url 'pblog:othersusercenter' article.writer.id %}");
+  });
+  $('#usercenter').on('click',function(){
+    window.open("{% url 'pblog:usercenter'%}");
+  });
+  $('#chat').on('click',function(){
+    var id1 = parseInt("{{article.writer.id}}");
+    var id2 = parseInt("{{user.id}}");
+    if(id1>id2){
+      var tmp = id1;
+      id1 = id2;
+      id2 = tmp;
+    }
+    var room_name = id1.toString()+id2.toString()
+    // window.open("http://localhost:8000/chat/"+room_name+"/")
+    window.open("http://localhost:8000/chat/"+id1+"/"+id2+"/")
+  });
+  
 });
 
 </script>

@@ -59,9 +59,14 @@ urlpatterns = [
     path('adminuserinfo/<user_id>',views.madminuserinfo,name='adminuserinfo'),
     # 用户修改密码
     path('changepassword/',views.mchangepassword,name='changepassword'),
-    # 点击用户进入用户界面
+    # 点击用户进入其他用户界面
     path('othersusercenter/<other_id>',views.mothersusercenter,name='othersusercenter'),
-    # 点击用户进入用户界面
-    path('othersusercenter/<other_id>',views.mothersusercenter,name='othersusercenter'),
+    # 点击用户进入其他用户文章界面
+    path('otherarticle/<other_id>',views.motherarticle,name='otherarticle'),
+    # 点击用户进入其他用户相册界面
+    path('otheralbum/<other_id>',views.motheralbum,name='otheralbum'),
+    # 点击用户进入其他用户资料界面
+    path('otherinfo/<other_id>',views.motherinfo,name='otherinfo'),
+    
     
 ]

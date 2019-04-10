@@ -6,6 +6,7 @@ from django.conf import settings
 from .forms import infoform
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+import datetime
 # Create your views here.
 
 def mhome(request):
@@ -35,6 +36,10 @@ def mregister(request):
         if regform.is_valid():
             regform.save()
             user = authenticate(username=regform.cleaned_data['username'],password=regform.cleaned_data['password1'])
+            if request.POST['gender'] == 'male':
+                MUSER(gender=True,muser=user).save()
+            else:
+                MUSER(gender=True,muser=user).save()
             login(request,user)
             return redirect('pblog:home')
     else:
@@ -97,7 +102,7 @@ def myalbum(request):
             if request.FILES.get('cover'):
                 f=request.FILES.get('cover')
                 album.cover='imgs/'+f.name
-                fname = settings.MEDIA_ROOT + '\imgs\\' + f.name
+                fname = settings.MEDIA_ROOT + '/imgs/' + f.name
                 with open(fname,'wb+') as pic:
                     for c in f.chunks():
                         pic.write(c)
@@ -140,7 +145,7 @@ def maddphoto(request,album_id):
             photo=MPHOTO(album=album,title=title,description=description,pic=pic)
             photo.save()
             MPUBLISH(types=2,photo=photo).save()
-            fname = settings.MEDIA_ROOT + '\imgs\\' + f.name
+            fname = settings.MEDIA_ROOT + '/imgs/' + f.name
             with open(fname,'wb+') as pic:
                 for c in f.chunks():
                     pic.write(c)
@@ -189,10 +194,19 @@ def mchangeinfo(request):
             request.user.muser.gender=False
         request.user.muser.save()
         if request.FILES.get('head'):
+            # print(str(name) == '')
+            if str(request.user.muser.head == ''):
+                request.user.muser.head='head/'+str(datetime.datetime.now())+'.png'
             name=request.user.muser.head
-            # print(settings.MEDIA_ROOT+'\\'+str(name).replace('/', '\\'))
+            # # print(settings.MEDIA_ROOT+'\\'+str(name).replace('/', '\\'))
+            # # f=request.FILES.get('head')
+            # # fname = settings.MEDIA_ROOT+'\\'+str(name).replace('/', '\\')
+            request.user.muser.save()
+            print(settings.MEDIA_ROOT+'/'+str(name))
             f=request.FILES.get('head')
-            fname = settings.MEDIA_ROOT+'\\'+str(name).replace('/', '\\')
+            fname = settings.MEDIA_ROOT+'/'+str(name)
+            
+            
             with open(fname,'wb+') as pic:
                 for c in f.chunks():
                     pic.write(c)
@@ -252,7 +266,7 @@ def madminarticle(request,article_id):
 
         
 def madminuser(request):
-    users=MUSER.objects.all()
+    users=User.objects.all()
     return render(request,'pblog/adminuser.html',{'users':users})
 
 def madminuserinfo(request,user_id):
@@ -276,7 +290,7 @@ def madminuserinfo(request,user_id):
                     for c in f.chunks():
                         pic.write(c)
         return redirect('pblog:adminuserinfo',user_id)   
-    user=MUSER.objects.get(id=user_id)
+    user=User.objects.get(id=user_id)
     return render(request,'pblog/adminuserinfo.html',{'muser':user})
 
 def mchangepassword(request):
@@ -300,6 +314,19 @@ def mchangepassword(request):
 def mothersusercenter(request,other_id):
     otheruser=User.objects.get(id=other_id)
     return render(request,'pblog/othersusercenter.html',{'otheruser':otheruser})
+
+def motherarticle(request,other_id):
+    otheruser=User.objects.get(id=other_id)
+    return render(request,'pblog/otherarticle.html',{'otheruser':otheruser})
+
+def motherinfo(request,other_id):
+    otheruser=User.objects.get(id=other_id)
+    return render(request,'pblog/otherinfo.html',{'otheruser':otheruser})
+
+def motheralbum(request,other_id):
+    otheruser=User.objects.get(id=other_id)
+    return render(request,'pblog/otheralbum.html',{'otheruser':otheruser})
+
 
 
 
